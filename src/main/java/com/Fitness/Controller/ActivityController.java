@@ -18,7 +18,7 @@ public class ActivityController {
 
     @PostMapping("/admin/activity")
     public ResponseEntity<ActivityDTO> trackActivity(@Valid @RequestBody ActivityDTO activityDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(activityService.trackActivity(activityDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(activityService.trackActivity(activityDTO));
     }
 
     @GetMapping("/public/activity/{userId}")
