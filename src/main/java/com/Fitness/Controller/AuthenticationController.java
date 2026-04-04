@@ -14,7 +14,9 @@ import com.Fitness.security.response.UserInfoResponse;
 import com.Fitness.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -64,10 +66,13 @@ public class AuthenticationController {
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String jwtToken = jwtUtils.generateJwtTokenFromUserName(userDetails);
+//        String jwtToken = jwtUtils.generateJwtTokenFromUserName(userDetails);
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        UserInfoResponse response = new UserInfoResponse(userDetails.getId(),jwtToken,userDetails.getEmail(),roles);
-        return ResponseEntity.ok(response);
+//        UserInfoResponse response = new UserInfoResponse(userDetails.getId(),jwtToken,userDetails.getEmail(),roles);
+        UserInfoResponse response = new UserInfoResponse(userDetails.getId(),userDetails.getEmail(),roles);
+//        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,jwtCookie.toString()).body(response);
     }
 
     @PostMapping("/signup")
@@ -97,5 +102,11 @@ public class AuthenticationController {
         user.setRoles(roles);
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User register successfully !!"));
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity<?> signOutUser(){
+        ResponseCookie cookie = jwtUtils.generateCleanCookie();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,cookie.toString()).body(new MessageResponse("You've been SignedOut !!"));
     }
 }

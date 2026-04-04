@@ -17,4 +17,10 @@ public class UserInfoResponse {
     private String JwtToken;
     private String email;
     private List<String> roles = new ArrayList<>();
+
+    public UserInfoResponse(Long id, String email, List<String> roles) {
+        this.userId=id;
+        this.email=email;
+        this.roles=roles;
+    }
 }

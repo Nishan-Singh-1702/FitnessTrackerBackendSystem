@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -24,6 +25,9 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService{
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Autowired
     RoleRepository roleRepository;
 
@@ -58,6 +62,7 @@ public class UserServiceImpl implements UserService{
             });
         }
         savedUser.setRoles(roles);
+        savedUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return modelMapper.map(userRepository.save(savedUser),UserDTO.class);
     }
 
