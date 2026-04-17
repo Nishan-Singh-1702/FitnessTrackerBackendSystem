@@ -89,7 +89,7 @@ public class JwtUtils {
     }
 
     private SecretKey key(){
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+        return Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(jwtSecret));
     }
 
     public boolean validateJwtToken(String authToken){

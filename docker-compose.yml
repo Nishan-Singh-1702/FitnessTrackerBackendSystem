@@ -1,0 +1,37 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: fitness-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATASOURCE_PASSWORD}
+      MYSQL_DATABASE: fitness_monolith
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DATASOURCE_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  app:
+    image: nishansingh17/fitness-monolith:latest
+    container_name: fitness-app
+    environment:
+      DATASOURCE_URL: ${DATASOURCE_URL}
+      DATASOURCE_USER: ${DATASOURCE_USER}
+      DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+      DATASOURCE_EXPIRATIONS: ${DATASOURCE_EXPIRATIONS}
+      DATASOURCE_SECRET: ${DATASOURCE_SECRET}
+      DATASOURCE_COOKIE: ${DATASOURCE_COOKIE}
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  mysql-data:
