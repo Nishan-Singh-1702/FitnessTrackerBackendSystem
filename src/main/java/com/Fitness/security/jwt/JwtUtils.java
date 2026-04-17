@@ -33,14 +33,14 @@ public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-//    public String GetJwtTokenFromHeader(HttpServletRequest request){
-//        String bearerToken = request.getHeader("Authorization");
-//        logger.debug("Authorization Header: {}",bearerToken);
-//        if(bearerToken!=null && bearerToken.startsWith("Bearer ")){
-//            return bearerToken.substring(7);
-//        }
-//        return null;
-//    }
+    public String GetJwtTokenFromHeader(HttpServletRequest request){
+        String bearerToken = request.getHeader("Authorization");
+        logger.debug("Authorization Header: {}",bearerToken);
+        if(bearerToken!=null && bearerToken.startsWith("Bearer ")){
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
 
     public String getJwtTokenFromCookies(HttpServletRequest request){
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
