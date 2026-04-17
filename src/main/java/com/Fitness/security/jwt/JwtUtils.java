@@ -28,7 +28,7 @@ public class JwtUtils {
     @Value("${spring.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${sping.app.jwtCookie}")
+    @Value("${spring.app.jwtCookie}")
     private String jwtCookie;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);

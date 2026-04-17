@@ -109,13 +109,13 @@ public class WebSecurityConfig {
             Role adminRole = roleRepository.findByRole(AppRole.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
 
-            if (!userRepository.existsByEmail("admin@gmail.com")) {
-                User admin = new User("nishan","admin","admin@gmail.com",passwordEncoder.encode("nishanAdmin"));
+            if (!userRepository.existsByEmail("nishansingh@gmail.com")) {
+                User admin = new User("Nishan","Singh","nishansingh@gmail.com",passwordEncoder.encode("nishanPassword"));
                 admin.setRoles(Set.of(adminRole,userRole));
                 userRepository.save(admin);
             }
-            if (!userRepository.existsByEmail("user@gmail.com")) {
-                User user = new User("pramod","user","user@gmail.com",passwordEncoder.encode("pramodUser"));
+            if (!userRepository.existsByEmail("tejujaiswal@gmail.com")) {
+                User user = new User("Teju","Jaiswal","tejujaiswal@gmail.com",passwordEncoder.encode("tejuPass"));
                 user.setRoles(Set.of(userRole));
                 userRepository.save(user);
             }
