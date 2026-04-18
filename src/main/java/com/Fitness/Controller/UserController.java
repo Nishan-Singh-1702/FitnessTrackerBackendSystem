@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping("/public/users")
     public ResponseEntity<UserResponse> getAllUser(@RequestParam(name = "pageNumber", required = false, defaultValue = AppConstant.pageNumber)Integer pageNumber,
                                                    @RequestParam(name = "pageSize",required = false,defaultValue = AppConstant.pageSize)Integer pageSize,
-                                                   @RequestParam(name = "sortBy",required = false,defaultValue = AppConstant.sortBy)String sortBy,
+                                                   @RequestParam(name = "sortBy",required = false,defaultValue = AppConstant.sortByUser)String sortBy,
                                                    @RequestParam(name = "sortOrder",required = false,defaultValue = AppConstant.sort_dir)String sortOrder){
         return ResponseEntity.ok(userService.getAllUsers(pageNumber,pageSize,sortBy,sortOrder));
     }

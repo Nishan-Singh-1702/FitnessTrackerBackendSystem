@@ -9,6 +9,7 @@ import com.Fitness.security.jwt.AuthEntryPointJwt;
 import com.Fitness.security.jwt.AuthTokenFilter;
 import com.Fitness.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +36,24 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 //@EnableMethodSecurity
 public class WebSecurityConfig {
+
+    @Value("${spring.app.adminEmail}")
+    private String adminEmail;
+    @Value("${spring.app.adminPassword}")
+    private String adminPassword;
+    @Value("${spring.app.adminFirstName}")
+    private String adminFirstName;
+    @Value("${spring.app.adminLastName}")
+    private String adminLastName;
+
+    @Value("${spring.app.userEmail}")
+    private String userEmail;
+    @Value("${spring.app.userPassword}")
+    private String userPassword;
+    @Value("${spring.app.userFirstName}")
+    private String userFirstName;
+    @Value("${spring.app.userLastName}")
+    private String userLastName;
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -109,13 +128,13 @@ public class WebSecurityConfig {
             Role adminRole = roleRepository.findByRole(AppRole.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
 
-            if (!userRepository.existsByEmail("nishansingh@gmail.com")) {
-                User admin = new User("Nishan","Singh","nishansingh@gmail.com",passwordEncoder.encode("nishanPassword"));
+            if (!userRepository.existsByEmail(adminEmail)) {
+                User admin = new User(adminFirstName,adminLastName,adminEmail,passwordEncoder.encode(adminPassword));
                 admin.setRoles(Set.of(adminRole,userRole));
                 userRepository.save(admin);
             }
-            if (!userRepository.existsByEmail("tejujaiswal@gmail.com")) {
-                User user = new User("Teju","Jaiswal","tejujaiswal@gmail.com",passwordEncoder.encode("tejuPass"));
+            if (!userRepository.existsByEmail(userEmail)) {
+                User user = new User(userFirstName,userLastName,userEmail,passwordEncoder.encode(userPassword));
                 user.setRoles(Set.of(userRole));
                 userRepository.save(user);
             }
