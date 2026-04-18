@@ -1,21 +1,19 @@
-#services:
-#  app:
-#    image: nishansingh17/fitness-monolith-app:latest
-#    container_name: fitness-app
-#    env_file:
-#      - .env
-#    ports:
-#      - "8080:8080"
-#    restart: on-failure
+services:
+  app:
+    image: nishansingh17/fitness-monolith-app:latest
+    container_name: fitness-app
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    restart: on-failure
 
-
-
-  services:
-    app:
-      build: .
-      container_name: fitness-app
-      env_file:
-        - .env
-      ports:
-        - "8080:8080"
-      restart: on-failure
+#  services:
+#    app:
+#      build: .
+#      container_name: fitness-app
+#      env_file:
+#        - .env
+#      ports:
+#        - "8080:8080"
+#      restart: on-failure
